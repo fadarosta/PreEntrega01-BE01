@@ -1,16 +1,14 @@
 class ProductManager {
     constructor() {
         this.products = [];
-        this.lastId = 0; // Guardamos el último ID usado
+        this.lastId = 0; 
     }
-
         // Validar Code
         const codeExist = this.products.some(p => p.code === code);
         if (codeExist) {
             console.log("Ya existe un producto con ese código.");
             return;
         }
-
         const newProduct = {
             id: ++this.lastId, // Incrementar
             title,
@@ -20,7 +18,6 @@ class ProductManager {
             code,
             stock
         };
-
         this.products.push(newProduct);
     }
 
@@ -36,6 +33,5 @@ class ProductManager {
             console.log("Not found");
             return null;
         }
-    }
-}
+    }}
 
