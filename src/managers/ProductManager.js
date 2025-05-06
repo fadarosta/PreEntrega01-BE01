@@ -1,16 +1,20 @@
-class ProductManager {
+// src/managers/ProductManager.js
+
+export default class ProductManager {
     constructor() {
         this.products = [];
-        this.lastId = 0; 
+        this.lastId = 0;
     }
-        // Validar Code
+
+    addProduct(title, description, price, thumbnail, code, stock) {
         const codeExist = this.products.some(p => p.code === code);
         if (codeExist) {
             console.log("Ya existe un producto con ese código.");
-            return;
+            return null;
         }
+
         const newProduct = {
-            id: ++this.lastId, // Incrementar
+            id: ++this.lastId, 
             title,
             description,
             price,
@@ -18,7 +22,10 @@ class ProductManager {
             code,
             stock
         };
+
         this.products.push(newProduct);
+
+        return newProduct;
     }
 
     getProducts() {
@@ -27,11 +34,10 @@ class ProductManager {
 
     getProductById(id) {
         const product = this.products.find(p => p.id === id);
-        if (product) {
-            return product;
-        } else {
+        if (!product) {
             console.log("Not found");
             return null;
         }
-    }}
-
+        return product;
+    }
+}
