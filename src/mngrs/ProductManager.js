@@ -1,13 +1,18 @@
-// constructor
 class ProductManager {
     constructor() {
         this.products = [];
-        this.currentId = 1;
+        this.lastId = 0; // Guardamos el último ID usado
     }
-// addProduct
-    addProduct(title, description, price, thumbnail, code, stock){
+
+        // Validar Code
+        const codeExist = this.products.some(p => p.code === code);
+        if (codeExist) {
+            console.log("Ya existe un producto con ese código.");
+            return;
+        }
+
         const newProduct = {
-            id: this.currentId,
+            id: ++this.lastId, // Incrementar
             title,
             description,
             price,
@@ -15,26 +20,22 @@ class ProductManager {
             code,
             stock
         };
+
         this.products.push(newProduct);
-        this.currentId++;
-        }
-// getProducts
-    getProducts(){
+    }
+
+    getProducts() {
         return this.products;
     }
-// getProductsById
-    getProductsById(){
+
+    getProductById(id) {
         const product = this.products.find(p => p.id === id);
         if (product) {
             return product;
         } else {
             console.log("Not found");
+            return null;
         }
     }
 }
 
-const manager = new ProductManager();
-
-manager.addProduct("Yoga", "Yoga Integral", 1200, "imagen.jpg", "A001", 50);
-
-console.log(manager.getProducts());
