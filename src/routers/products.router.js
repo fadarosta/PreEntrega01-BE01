@@ -1,6 +1,7 @@
-
 import { Router } from 'express';
 import ProductManager from '../managers/ProductManager.js';
+import { validateProduct, validateUpdateProduct } from '../validators/productValidator.js';
+import { validateFields } from '../middlewares/validateFields.js';
 
 const productsRouter = Router();
 const pm = new ProductManager('./src/data/products.json');
@@ -19,18 +20,28 @@ productsRouter.get('/:pid', async (req, res) => {
 });
 
 // POST /api/products/
-productsRouter.post('/', async (req, res) => {
-    const newProduct = req.body;
-    const result = await pm.addProduct(newProduct);
-    res.status(201).json(result);
-});
+productsRouter.post(
+    '/',
+    validateProduct,
+    validateFields,
+    async (req, res) => {
+        const newProduct = req.body;
+        const result = await pm.addProduct(newProduct);
+        res.status(201).json(result);
+    }
+);
 
 // PUT /api/products/:pid
-productsRouter.put('/:pid', async (req, res) => {
-    const updates = req.body;
-    const updated = await pm.updateProduct(req.params.pid, updates);
-    res.json(updated);
-});
+productsRouter.put(
+    '/:pid',
+    validateUpdateProduct,
+    validateFields,
+    async (req, res) => {
+        const updates = req.body;
+        const updated = await pm.updateProduct(req.params.pid, updates);
+        res.json(updated);
+    }
+);
 
 // DELETE /api/products/:pid
 productsRouter.delete('/:pid', async (req, res) => {
